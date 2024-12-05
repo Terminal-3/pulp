@@ -3453,6 +3453,7 @@ impl Default for Arch {
     }
 }
 
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy)]
 #[repr(transparent)]
 pub struct Arch {
@@ -3559,35 +3560,43 @@ pub mod x86;
 pub mod aarch64;
 
 /// Mask type with 8 bits. Its bit either all ones or all zeros.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct m8(u8);
 /// Mask type with 16 bits. Its bit either all ones or all zeros.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct m16(u16);
 /// Mask type with 32 bits. Its bit either all ones or all zeros.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct m32(u32);
 /// Mask type with 64 bits. Its bit either all ones or all zeros.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct m64(u64);
 
 /// Bitmask type for 8 elements, used for mask operations on AVX512.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct b8(pub u8);
 /// Bitmask type for 16 elements, used for mask operations on AVX512.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct b16(pub u16);
 /// Bitmask type for 32 elements, used for mask operations on AVX512.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct b32(pub u32);
 /// Bitmask type for 64 elements, used for mask operations on AVX512.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct b64(pub u64);

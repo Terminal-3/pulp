@@ -10887,6 +10887,7 @@ impl V4 {
 }
 
 /// x86 arch
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy)]
 #[non_exhaustive]
 #[repr(u8)]

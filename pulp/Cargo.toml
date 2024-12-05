@@ -15,12 +15,14 @@ bytemuck = "1"
 num-complex = { version = "0.4.4", default-features = false, features = ["bytemuck"] }
 libm = { version = "0.2", default-features = false }
 reborrow = "0.5"
+serde = { version = "1.0.215", features = ["derive", "rc"], optional = true }
 
 [features]
 default = ["std"]
 std = []
 nightly = ["bytemuck/nightly_stdsimd"]
 macro = ["dep:pulp-macro"]
+serde = ["dep:serde"]
 
 [dev-dependencies]
 assert_approx_eq = "1.1.0"
