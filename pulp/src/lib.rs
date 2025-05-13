@@ -3813,57 +3813,16 @@ unsafe fn rsplit_slice<T, U>(slice: &[T]) -> (&[T], &[U]) {
 	)
 }
 
-#[inline(always)]
-unsafe fn rsplit_mut_slice<T, U>(slice: &mut [T]) -> (&mut [T], &mut [U]) {
-	assert_eq!(core::mem::size_of::<U>() % core::mem::size_of::<T>(), 0);
-	assert_eq!(core::mem::align_of::<U>(), core::mem::align_of::<T>());
 
-	let chunk_size = core::mem::size_of::<U>() / core::mem::size_of::<T>();
-
-	let len = slice.len();
-	let data = slice.as_mut_ptr();
-
-	let div = len / chunk_size;
-	let rem = len % chunk_size;
-	(
-		from_raw_parts_mut(data, rem),
-		from_raw_parts_mut(data.add(rem) as *mut U, div),
-	)
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, Copy)]
+#[repr(transparent)]
+pub struct Arch {
+    inner: ArchInner,
 }
 
-match_cfg!(item, match cfg!() {
-	const { any(target_arch = "x86", target_arch = "x86_64") } => {
-		pub use x86::Arch;
-	},
-	const { target_arch = "aarch64" } => {
-		pub use aarch64::Arch;
-	},
-	_ => {
-		#[derive(Debug, Clone, Copy)]
-		#[non_exhaustive]
-		pub enum Arch {
-			Scalar,
-		}
 
-		impl Arch {
-			#[inline(always)]
-			pub fn new() -> Self {
-				Self::Scalar
-			}
 
-			#[inline(always)]
-			pub fn dispatch<Op: WithSimd>(self, op: Op) -> Op::Output {
-				op.with_simd(Scalar)
-			}
-		}
-		impl Default for Arch {
-			#[inline]
-			fn default() -> Self {
-				Self::new()
-			}
-		}
-	},
-});
 
 #[doc(hidden)]
 pub struct CheckSameSize<T, U>(PhantomData<(T, U)>);
@@ -4036,40 +3995,45 @@ pub mod x86;
 /// Low level aarch64 API.
 pub mod aarch64;
 
-/// Mask type with 8 bits. Its bit pattern is either all ones or all zeros. Unsafe code must not
-/// depend on this, however.
+/// Mask type with 8 bits. Its bit either all ones or all zeros.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct m8(u8);
-/// Mask type with 16 bits. Its bit pattern is either all ones or all zeros. Unsafe code must not
-/// depend on this, however.
+/// Mask type with 16 bits. Its bit either all ones or all zeros.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct m16(u16);
-/// Mask type with 32 bits. Its bit pattern is either all ones or all zeros. Unsafe code must not
-/// depend on this, however.
+/// Mask type with 32 bits. Its bit either all ones or all zeros.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct m32(u32);
-/// Mask type with 64 bits. Its bit pattern is either all ones or all zeros. Unsafe code must not
-/// depend on this, however.
+/// Mask type with 64 bits. Its bit either all ones or all zeros.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+
 #[derive(Copy, Clone, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct m64(u64);
 
 /// Bitmask type for 8 elements, used for mask operations on AVX512.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct b8(pub u8);
 /// Bitmask type for 16 elements, used for mask operations on AVX512.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct b16(pub u16);
 /// Bitmask type for 32 elements, used for mask operations on AVX512.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct b32(pub u32);
 /// Bitmask type for 64 elements, used for mask operations on AVX512.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct b64(pub u64);

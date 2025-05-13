@@ -55,6 +55,7 @@ unsafe fn avx_st_u32s(ptr: *mut u32, value: u32x8, f: unsafe extern "C" fn()) {
 }
 
 /// x86 arch
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy)]
 #[non_exhaustive]
 #[repr(u8)]
