@@ -2292,6 +2292,7 @@ impl Neon {
 #[derive(Debug, Clone, Copy)]
 #[non_exhaustive]
 #[repr(u8)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub(crate) enum ArchInner {
     // msrv(1.66) discriminants on non-unit variants
     Scalar = 0,
